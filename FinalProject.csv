@@ -1,0 +1,82 @@
+# Copyright (C) 2022  Intel Corporation. All rights reserved.
+# Your use of Intel Corporation's design tools, logic functions 
+# and other software and tools, and any partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Intel Program License 
+# Subscription Agreement, the Intel Quartus Prime License Agreement,
+# the Intel FPGA IP License Agreement, or other applicable license
+# agreement, including, without limitation, that your use is for
+# the sole purpose of programming logic devices manufactured by
+# Intel and sold by Intel or its authorized distributors.  Please
+# refer to the applicable agreement for further details, at
+# https://fpgasoftware.intel.com/eula.
+
+# Quartus Prime Version 21.1.1 Build 850 06/23/2022 SJ Lite Edition
+# File: C:\Users\Deepak\Documents\MastersDegree\EmbeddedSystems\FinalProject\FinalProjectVHDLOnly\FinalProject.csv
+# Generated on: Wed Nov 29 21:21:25 2023
+
+# Note: The column header names should not be changed if you wish to import this .csv file into the Quartus Prime software.
+
+To,Direction,Location,I/O Bank,VREF Group,Fitter Location,I/O Standard,Reserved,Current Strength,Slew Rate,Differential Pair,Transceiver Analog Settings Protocol,VCCR_GXB/VCCT_GXB Voltage,Transceiver I/O Pin Termination,Transceiver Dedicated Refclk Pin Termination,Transmitter Common Mode Driver Voltage,Transmitter Slew Rate Control,Transmitter Differential Output Voltage,Receiver Buffer Common Mode Voltage,Strict Preservation
+CMOS_IN[0],Input,PIN_AJ27,4A,B4A_N0,PIN_AJ27,2.5 V,,,,,,,,,,,,,
+CMOS_IN[1],Input,PIN_AH27,4A,B4A_N0,PIN_AH27,2.5 V,,,,,,,,,,,,,
+CMOS_IN[2],Input,PIN_AH24,4A,B4A_N0,PIN_AH24,2.5 V,,,,,,,,,,,,,
+CMOS_IN[3],Input,PIN_AG26,4A,B4A_N0,PIN_AG26,2.5 V,,,,,,,,,,,,,
+CMOS_IN[4],Input,PIN_AG25,4A,B4A_N0,PIN_AG25,2.5 V,,,,,,,,,,,,,
+CMOS_IN[5],Input,PIN_AF26,4A,B4A_N0,PIN_AF26,2.5 V,,,,,,,,,,,,,
+CMOS_IN[6],Input,PIN_AF25,4A,B4A_N0,PIN_AF25,2.5 V,,,,,,,,,,,,,
+CMOS_IN[7],Input,PIN_AE24,4A,B4A_N0,PIN_AE24,2.5 V,,,,,,,,,,,,,
+CMOS_IN[8],Input,PIN_AE23,4A,B4A_N0,PIN_AE23,2.5 V,,,,,,,,,,,,,
+CMOS_IN[9],Input,PIN_AD24,4A,B4A_N0,PIN_AD24,2.5 V,,,,,,,,,,,,,
+CMOS_IN[10],Input,PIN_AC23,4A,B4A_N0,PIN_AC23,2.5 V,,,,,,,,,,,,,
+CMOS_IN[11],Input,PIN_AA21,4A,B4A_N0,PIN_AA21,2.5 V,,,,,,,,,,,,,
+DISPLAY_BLUE[0],Output,PIN_AH19,4A,B4A_N0,PIN_AH19,2.5 V,,,,,,,,,,,,,
+DISPLAY_BLUE[1],Output,PIN_AH20,4A,B4A_N0,PIN_AH20,2.5 V,,,,,,,,,,,,,
+DISPLAY_BLUE[2],Output,PIN_AK21,4A,B4A_N0,PIN_AK21,2.5 V,,,,,,,,,,,,,
+DISPLAY_BLUE[3],Output,PIN_AD19,4A,B4A_N0,PIN_AD19,2.5 V,,,,,,,,,,,,,
+DISPLAY_BLUE[4],Output,PIN_AD20,4A,B4A_N0,PIN_AD20,2.5 V,,,,,,,,,,,,,
+DISPLAY_BLUE[5],Output,PIN_AE18,4A,B4A_N0,PIN_AE18,2.5 V,,,,,,,,,,,,,
+DISPLAY_BLUE[6],Output,PIN_AE19,4A,B4A_N0,PIN_AE19,2.5 V,,,,,,,,,,,,,
+DISPLAY_BLUE[7],Output,PIN_AF20,4A,B4A_N0,PIN_AF20,2.5 V,,,,,,,,,,,,,
+DISPLAY_GREEN[0],Output,PIN_AH17,4A,B4A_N0,PIN_AH17,2.5 V,,,,,,,,,,,,,
+DISPLAY_GREEN[1],Output,PIN_AG16,4A,B4A_N0,PIN_AG16,2.5 V,,,,,,,,,,,,,
+DISPLAY_GREEN[2],Output,PIN_AE16,4A,B4A_N0,PIN_AE16,2.5 V,,,,,,,,,,,,,
+DISPLAY_GREEN[3],Output,PIN_AF16,4A,B4A_N0,PIN_AF16,2.5 V,,,,,,,,,,,,,
+DISPLAY_GREEN[4],Output,PIN_AG17,4A,B4A_N0,PIN_AG17,2.5 V,,,,,,,,,,,,,
+DISPLAY_GREEN[5],Output,PIN_AE17,4A,B4A_N0,PIN_AE17,2.5 V,,,,,,,,,,,,,
+DISPLAY_GREEN[6],Output,PIN_AC20,4A,B4A_N0,PIN_AC20,2.5 V,,,,,,,,,,,,,
+DISPLAY_GREEN[7],Output,PIN_AJ20,4A,B4A_N0,PIN_AJ20,2.5 V,,,,,,,,,,,,,
+DISPLAY_RED[0],Output,PIN_Y18,4A,B4A_N0,PIN_Y18,2.5 V,,,,,,,,,,,,,
+DISPLAY_RED[1],Output,PIN_AK16,4A,B4A_N0,PIN_AK16,2.5 V,,,,,,,,,,,,,
+DISPLAY_RED[2],Output,PIN_AK18,4A,B4A_N0,PIN_AK18,2.5 V,,,,,,,,,,,,,
+DISPLAY_RED[3],Output,PIN_AK19,4A,B4A_N0,PIN_AK19,2.5 V,,,,,,,,,,,,,
+DISPLAY_RED[4],Output,PIN_AJ19,4A,B4A_N0,PIN_AJ19,2.5 V,,,,,,,,,,,,,
+DISPLAY_RED[5],Output,PIN_AJ17,4A,B4A_N0,PIN_AJ17,2.5 V,,,,,,,,,,,,,
+DISPLAY_RED[6],Output,PIN_AJ16,4A,B4A_N0,PIN_AJ16,2.5 V,,,,,,,,,,,,,
+DISPLAY_RED[7],Output,PIN_AH18,4A,B4A_N0,PIN_AH18,2.5 V,,,,,,,,,,,,,
+KEY[0],Input,PIN_AA14,3B,B3B_N0,PIN_W24,,,,,,,,,,,,,,
+KEY[1],Input,PIN_AA15,3B,B3B_N0,PIN_AD17,,,,,,,,,,,,,,
+KEY[2],Input,PIN_W15,3B,B3B_N0,PIN_J12,,,,,,,,,,,,,,
+KEY[3],Input,PIN_Y16,3B,B3B_N0,PIN_F13,,,,,,,,,,,,,,
+LEDR[0],Output,PIN_V16,4A,B4A_N0,PIN_V16,2.5 V,,,,,,,,,,,,,
+LEDR[1],Output,PIN_W16,4A,B4A_N0,PIN_W16,2.5 V,,,,,,,,,,,,,
+LEDR[2],Output,PIN_V17,4A,B4A_N0,PIN_V17,2.5 V,,,,,,,,,,,,,
+LEDR[3],Output,PIN_V18,4A,B4A_N0,PIN_V18,2.5 V,,,,,,,,,,,,,
+LEDR[4],Output,PIN_W17,4A,B4A_N0,PIN_W17,2.5 V,,,,,,,,,,,,,
+LEDR[5],Output,PIN_W19,4A,B4A_N0,PIN_W19,2.5 V,,,,,,,,,,,,,
+LEDR[6],Output,PIN_Y19,4A,B4A_N0,PIN_Y19,2.5 V,,,,,,,,,,,,,
+LEDR[7],Output,PIN_W20,5A,B5A_N0,PIN_W20,2.5 V,,,,,,,,,,,,,
+LEDR[8],Output,PIN_W21,5A,B5A_N0,PIN_W21,2.5 V,,,,,,,,,,,,,
+LEDR[9],Output,PIN_Y21,5A,B5A_N0,PIN_Y21,2.5 V,,,,,,,,,,,,,
+clock_27,Input,,,,PIN_AG27,,,,,,,,,,,,,,
+clock_50,Input,PIN_AF14,3B,B3B_N0,PIN_AF14,2.5 V,,,,,,,,,,,,,
+cmos_fval,Input,PIN_AK24,4A,B4A_N0,PIN_AK24,2.5 V,,,,,,,,,,,,,
+cmos_lval,Input,PIN_AJ24,4A,B4A_N0,PIN_AJ24,2.5 V,,,,,,,,,,,,,
+cmos_pixclk,Input,PIN_AB17,4A,B4A_N0,PIN_AB17,2.5 V,,,,,,,,,,,,,
+cmos_trigger,Output,PIN_AH25,4A,B4A_N0,PIN_AH25,2.5 V,,,,,,,,,,,,,
+cmos_xclkin,Output,PIN_AK27,4A,B4A_N0,PIN_AK27,2.5 V,,,,,,,,,,,,,
+display_clock,Output,PIN_Y17,4A,B4A_N0,PIN_Y17,2.5 V,,,,,,,,,,,,,
+display_hsd,Output,PIN_AF19,4A,B4A_N0,PIN_AF19,2.5 V,,,,,,,,,,,,,
+display_vsd,Output,PIN_AG21,4A,B4A_N0,PIN_AG21,2.5 V,,,,,,,,,,,,,

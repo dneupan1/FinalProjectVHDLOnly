@@ -1,0 +1,33 @@
+--Lab One - Part VI
+
+--Students:
+--	Hansen Shamoon 
+--	Deepak Neupane
+
+-- This circuit implements a circuit that has two decimal digits X and Y. The sum
+-- of these inputs are displayed onto the hex displays.
+--
+
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+-- Four Bit Adder (Top Level Entity) 
+ENTITY FinalProject is
+    PORT ( 
+				clock: IN STD_LOGIC;
+			   LEDR : OUT STD_LOGIC_VECTOR(9 downto 0));
+END FinalProject;
+
+ARCHITECTURE Behavioral of FINALPROJECT is
+
+   SIGNAL camera_signal : STD_LOGIC_VECTOR(11 DOWNTO 0);
+	SIGNAL is_sum_greater_than_9 : STD_LOGIC;
+	
+BEGIN
+	
+	 
+END Behavioral;
+
+
+
