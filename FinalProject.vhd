@@ -120,7 +120,7 @@ BEGIN
                             green <= pixel_buffer(1, 0);
                             blue <= pixel_buffer(1, 1);
                         elsif pixel_x = 0 and pixel_y = 1 then
-									
+									1
                             -- Green Pixel (Blue row)
                             red <= pixel_buffer(0, 0);
                             green <= pixel_buffer(0, 1);
