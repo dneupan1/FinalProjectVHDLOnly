@@ -64,6 +64,14 @@ ARCHITECTURE Behavioral of FINALPROJECT is
 	signal hsync_counter : integer := 0;
 	signal vsync_counter : integer := 0;
 	
+	-- some sample data to display static images on the lcd
+	SIGNAL color_counter: INTEGER := 0;  -- Counter to cycle colors
+	SIGNAL color_period: INTEGER := 50000000; -- Number of clock ticks for one second at 50 MHz
+
+	-- Define colors
+	TYPE color_t IS (RED_d, GREEN_d, BLUE_d);
+	SIGNAL current_color: color_t := RED_d;
+	
 BEGIN
    
 	PROCESS (clock_50)
@@ -75,6 +83,24 @@ BEGIN
                 clock_25MHz <= NOT clock_25MHz;  -- Toggle the 25MHz clock
             END IF;
             divider <= NOT divider;  -- Toggle the divider every clock cycle
+				
+				-- Cycle colors every second
+            IF color_counter >= color_period THEN
+                color_counter <= 0;
+                -- Cycle through colors
+                CASE current_color IS
+                    WHEN RED_d =>
+                        current_color <= GREEN_d;
+                    WHEN GREEN_d =>
+                        current_color <= BLUE_d;
+                    WHEN BLUE_d =>
+                        current_color <= RED_d;
+                    WHEN OTHERS =>
+                        current_color <= RED_d;
+                END CASE;
+            ELSE
+                color_counter <= color_counter + 1;
+            END IF;
         END IF;
     END PROCESS;
 	 
@@ -88,59 +114,7 @@ BEGIN
 	cmos_xclkin <= clock_25MHz;
 	display_clock <= clock_25MHz;
 	
-	PROCESS (cmos_pixclk)
-    begin
-        if rising_edge(cmos_pixclk) then
-            if cmos_fval = '1' and cmos_lval = '1' then
-                -- Load pixel data into the buffer
-                if pixel_x < 2 and pixel_y < 2 then
-                    pixel_buffer(pixel_x, pixel_y) <= CMOS_IN;
-                end if;
-					
-                -- Increment pixel position
-                pixel_x <= pixel_x + 1;
-                if pixel_x = 2 then
-                    pixel_x <= 0;
-                    pixel_y <= pixel_y + 1;
-						  LEDR(1) <= '1';
-                    if pixel_y = 2 then
-                        pixel_y <= 0;
-								LEDR(2) <= '1';
-                        -- Demosaicing Logic for RGB Bayer Pattern
-                        if pixel_x = 0 and pixel_y = 0 then
-									
-                            -- Red Pixel
-                            red <= pixel_buffer(0, 0);
-                            green <= pixel_buffer(0, 1);
-                            blue <= pixel_buffer(1, 1);
-                        elsif pixel_x = 1 and pixel_y = 0 then
-									
-                            -- Green Pixel (Red row)
-                            red <= pixel_buffer(0, 0);
-                            green <= pixel_buffer(1, 0);
-                            blue <= pixel_buffer(1, 1);
-                        elsif pixel_x = 0 and pixel_y = 1 then
-									1
-                            -- Green Pixel (Blue row)
-                            red <= pixel_buffer(0, 0);
-                            green <= pixel_buffer(0, 1);
-                            blue <= pixel_buffer(1, 1);
-                        elsif pixel_x = 1 and pixel_y = 1 then
-									
-                            -- Blue Pixel
-                            red <= pixel_buffer(0, 0);
-                            green <= pixel_buffer(1, 0);
-                            blue <= pixel_buffer(1, 1);
-                        end if;
-								-- Example of displaying the most significant bits of each color on LEDs
-								LEDR(2 downto 0) <= red(11 downto 9);    -- 3 MSBs of red
-								LEDR(5 downto 3) <= green(11 downto 9);  -- 3 MSBs of green
-								LEDR(8 downto 6) <= blue(11 downto 9);   -- 3 MSBs of blue
-                    end if;
-                end if;
-            end if;
-        end if;
-    end process;
+
 	 
 	 -- LCD Display Process
     PROCESS (clock_25MHz)
@@ -168,9 +142,29 @@ BEGIN
 				vsync_counter < (VSYNC_TOTAL - VSYNC_FRONT_PORCH) then
 				-- Within the active video region
 				-- Assign pixel data to output signals here
-				DISPLAY_RED <= red(11 downto 4);
-				DISPLAY_GREEN <= green(11 downto 4);
-				DISPLAY_BLUE <= blue(11 downto 4);
+				--DISPLAY_RED <= red(11 downto 4);
+				--DISPLAY_GREEN <= green(11 downto 4);
+				--DISPLAY_BLUE <= blue(11 downto 4);
+				-- Use the sample image data
+            -- Set the screen to the current color
+				 CASE current_color IS
+					  WHEN RED_d =>
+							DISPLAY_RED <= (OTHERS => '1');
+							DISPLAY_GREEN <= (OTHERS => '0');
+							DISPLAY_BLUE <= (OTHERS => '0');
+					  WHEN GREEN_d =>
+							DISPLAY_RED <= (OTHERS => '0');
+							DISPLAY_GREEN <= (OTHERS => '1');
+							DISPLAY_BLUE <= (OTHERS => '0');
+					  WHEN BLUE_d =>
+							DISPLAY_RED <= (OTHERS => '0');
+							DISPLAY_GREEN <= (OTHERS => '0');
+							DISPLAY_BLUE <= (OTHERS => '1');
+					  WHEN OTHERS =>
+							DISPLAY_RED <= (OTHERS => '0');
+							DISPLAY_GREEN <= (OTHERS => '0');
+							DISPLAY_BLUE <= (OTHERS => '0');
+				 END CASE;
 			else
 				-- Outside the active video region (during porch intervals)
 				-- Assign blanking values to output signals here
@@ -182,11 +176,11 @@ BEGIN
 			 -- Increment counters
 			 hsync_counter <= hsync_counter + 1;
 			 if hsync_counter = HSYNC_TOTAL then
-				  hsync_counter <= 0;
-				  vsync_counter <= vsync_counter + 1;
-				  if vsync_counter = VSYNC_TOTAL then
-						vsync_counter <= 0;
-				  end if;
+				hsync_counter <= 0;
+			 vsync_counter <= vsync_counter + 1;
+			 if vsync_counter = VSYNC_TOTAL then
+				vsync_counter <= 0;
+			 end if;
 			 end if;
 		end if;
     end process;
