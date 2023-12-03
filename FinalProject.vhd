@@ -5,6 +5,8 @@
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
+USE IEEE.NUMERIC_STD.ALL;
+
 
 -- Four Bit Adder (Top Level Entity) 
 ENTITY FinalProject is
@@ -43,7 +45,7 @@ ARCHITECTURE Behavioral of FINALPROJECT is
 	
 	
 	--image processing
-	type pixel_array_type is array (0 to 1, 0 to 1) of std_logic_vector(11 downto 0);
+	type pixel_array_type is array (0 to 3, 0 to 3) of std_logic_vector(11 downto 0);
 	signal pixel_buffer: pixel_array_type;
 
 	signal pixel_x, pixel_y: integer := 0;
@@ -114,14 +116,106 @@ BEGIN
 	cmos_xclkin <= clock_25MHz;
 	display_clock <= clock_25MHz;
 	
+	process(cmos_pixclk)
+		 variable temp_red, temp_green, temp_blue: integer;
+		 variable num_green, num_blue, num_red: integer;
+	begin
+		 if rising_edge(cmos_pixclk) then
+			  -- Load pixel data into the buffer
+			  if cmos_fval = '1' and cmos_lval = '1' then
+					if pixel_x < 4 and pixel_y < 4 then
+						 pixel_buffer(pixel_x, pixel_y) <= CMOS_IN;
+						 LEDR(0) <= '1'; -- LED test: Light up LED 0 when loading data
+					end if;
 
-	 
-	 -- LCD Display Process
-    PROCESS (clock_25MHz)
-    begin
-      -- Inside the clocked process
-		if rising_edge(clock_25MHz) then
-			 -- Generate HSYNC signal
+					-- Increment pixel position
+					pixel_x <= pixel_x + 1;
+					if pixel_x = 4 then
+						 pixel_x <= 0;
+						 pixel_y <= pixel_y + 1;
+
+						 if pixel_y = 4 then
+							  pixel_y <= 0;
+							  LEDR(0) <= '0'; -- Reset LED 0 after loading one frame
+
+							  -- Simple bilinear interpolation demosaicing
+							  for i in 0 to 3 loop
+									for j in 0 to 3 loop
+										 -- Initialize variables for each pixel
+										 temp_red := 0; temp_green := 0; temp_blue := 0;
+										 num_green := 0; num_red := 0; num_blue := 0;
+
+										 -- Apply demosaicing based on pixel position
+										 if ((i mod 2 = 0) and (j mod 2 = 0)) or ((i mod 2 = 1) and (j mod 2 = 1)) then
+											  -- Red Pixel or Blue Pixel
+											  temp_red := to_integer(unsigned(pixel_buffer(i, j)));
+											  temp_blue := to_integer(unsigned(pixel_buffer(i, j)));
+											  -- Accumulate green values and count
+											  if (j > 0) then
+													temp_green := temp_green + to_integer(unsigned(pixel_buffer(i, j-1)));
+													num_green := num_green + 1;
+											  end if;
+											  if (j < 3) then
+													temp_green := temp_green + to_integer(unsigned(pixel_buffer(i, j+1)));
+													num_green := num_green + 1;
+											  end if;
+											  if (i > 0) then
+													temp_green := temp_green + to_integer(unsigned(pixel_buffer(i-1, j)));
+													num_green := num_green + 1;
+											  end if;
+											  if (i < 3) then
+													temp_green := temp_green + to_integer(unsigned(pixel_buffer(i+1, j)));
+													num_green := num_green + 1;
+											  end if;
+											  if (num_green > 0) then
+													temp_green := temp_green / num_green;
+											  end if;
+										 elsif ((i mod 2 = 0) and (j mod 2 = 1)) or ((i mod 2 = 1) and (j mod 2 = 0)) then
+											  -- Green Pixel
+											  temp_green := to_integer(unsigned(pixel_buffer(i, j)));
+											  -- Accumulate red and blue values with boundary checks
+											  if ((i mod 2 = 0) and (j mod 2 = 1)) then
+													-- Green Pixel on Red Row
+													if (j > 0) then
+														 temp_red := temp_red + to_integer(unsigned(pixel_buffer(i, j-1)));
+														 num_red := num_red + 1;
+													end if;
+													if (j < 3) then
+														 temp_red := temp_red + to_integer(unsigned(pixel_buffer(i, j+1)));
+														 num_red := num_red + 1;
+													end if;
+													if (num_red > 0) then
+														 temp_red := temp_red / num_red;
+													end if;
+											  end if;
+											  if ((i mod 2 = 1) and (j mod 2 = 0)) then
+													-- Green Pixel on Blue Row
+													if (i > 0) then
+														 temp_blue := temp_blue + to_integer(unsigned(pixel_buffer(i-1, j)));
+														 num_blue := num_blue + 1;
+													end if;
+													if (i < 3) then
+														 temp_blue := temp_blue + to_integer(unsigned(pixel_buffer(i+1, j)));
+														 num_blue := num_blue + 1;
+													end if;
+													if (num_blue > 0) then
+														 temp_blue := temp_blue / num_blue;
+													end if;
+											  end if;
+										 end if;
+
+										 -- LED test: Monitor temp_red, temp_green, temp_blue values
+										 LEDR(9 downto 7) <= std_logic_vector(to_unsigned(temp_red, 3)(2 downto 0));   -- Most significant 3 bits of red
+										 LEDR(6 downto 4) <= std_logic_vector(to_unsigned(temp_green, 3)(2 downto 0)); -- Most significant 3 bits of green
+										 LEDR(3 downto 1) <= std_logic_vector(to_unsigned(temp_blue, 3)(2 downto 0));  -- Most significant 3 bits of blue
+									end loop;
+							  end loop;
+							  -- Reset LEDs after processing
+							  --LEDR(9 downto 1) <= (others => '0');
+						 end if;
+					end if;
+			  end if;
+			   -- Generate HSYNC signal
 			if hsync_counter < HSYNC_PULSE_WIDTH then
 			  display_hsd <= '0'; -- Sync pulse
 			else
@@ -142,29 +236,9 @@ BEGIN
 				vsync_counter < (VSYNC_TOTAL - VSYNC_FRONT_PORCH) then
 				-- Within the active video region
 				-- Assign pixel data to output signals here
-				--DISPLAY_RED <= red(11 downto 4);
-				--DISPLAY_GREEN <= green(11 downto 4);
-				--DISPLAY_BLUE <= blue(11 downto 4);
-				-- Use the sample image data
-            -- Set the screen to the current color
-				 CASE current_color IS
-					  WHEN RED_d =>
-							DISPLAY_RED <= (OTHERS => '1');
-							DISPLAY_GREEN <= (OTHERS => '0');
-							DISPLAY_BLUE <= (OTHERS => '0');
-					  WHEN GREEN_d =>
-							DISPLAY_RED <= (OTHERS => '0');
-							DISPLAY_GREEN <= (OTHERS => '1');
-							DISPLAY_BLUE <= (OTHERS => '0');
-					  WHEN BLUE_d =>
-							DISPLAY_RED <= (OTHERS => '0');
-							DISPLAY_GREEN <= (OTHERS => '0');
-							DISPLAY_BLUE <= (OTHERS => '1');
-					  WHEN OTHERS =>
-							DISPLAY_RED <= (OTHERS => '0');
-							DISPLAY_GREEN <= (OTHERS => '0');
-							DISPLAY_BLUE <= (OTHERS => '0');
-				 END CASE;
+				DISPLAY_RED <= red(11 downto 4);
+				DISPLAY_GREEN <= green(11 downto 4);
+				DISPLAY_BLUE <= blue(11 downto 4);
 			else
 				-- Outside the active video region (during porch intervals)
 				-- Assign blanking values to output signals here
@@ -182,6 +256,17 @@ BEGIN
 				vsync_counter <= 0;
 			 end if;
 			 end if;
+		 end if;
+	end process;
+
+	 
+	 
+	 -- LCD Display Process
+    process (clock_25MHz)
+    begin
+      -- Inside the clocked process
+		if rising_edge(clock_25MHz) then
+			
 		end if;
     end process;
 	 
