@@ -219,7 +219,18 @@ BEGIN
 						 end if;
 					end if;
 			  end if;
-			   -- Generate HSYNC signal
+			
+		 end if;
+	end process;
+
+	 
+	 
+	 -- LCD Display Process
+    process (clock_25MHz)
+    begin
+      -- Inside the clocked process
+		if rising_edge(clock_25MHz) then
+			-- Generate HSYNC signal
 			if hsync_counter < HSYNC_PULSE_WIDTH then
 			  display_hsd <= '0'; -- Sync pulse
 			else
@@ -255,22 +266,12 @@ BEGIN
 			 hsync_counter <= hsync_counter + 1;
 			 if hsync_counter = HSYNC_TOTAL then
 				hsync_counter <= 0;
+			 end if;
 			 vsync_counter <= vsync_counter + 1;
 			 if vsync_counter = VSYNC_TOTAL then
 				vsync_counter <= 0;
-			 end if;
-			 end if;
-		 end if;
-	end process;
 
-	 
-	 
-	 -- LCD Display Process
-    process (clock_25MHz)
-    begin
-      -- Inside the clocked process
-		if rising_edge(clock_25MHz) then
-			
+			 end if;
 		end if;
     end process;
 	 
