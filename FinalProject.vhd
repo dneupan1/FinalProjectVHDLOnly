@@ -203,6 +203,10 @@ BEGIN
 													end if;
 											  end if;
 										 end if;
+										 
+										red <= std_logic_vector(to_unsigned(temp_red, 12));
+										green <= std_logic_vector(to_unsigned(temp_green, 12));
+										blue <= std_logic_vector(to_unsigned(temp_blue, 12));
 
 										 -- LED test: Monitor temp_red, temp_green, temp_blue values
 										 LEDR(9 downto 7) <= std_logic_vector(to_unsigned(temp_red, 3)(2 downto 0));   -- Most significant 3 bits of red
